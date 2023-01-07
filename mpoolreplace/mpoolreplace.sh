@@ -28,10 +28,10 @@ do
         #### for method 5 (winpost msg ), it should be release as soon as possible.
         if [[ "$Method" == "5" ]];then
             ## change the limit
-            let MaxBasefeeLimit = currentBasefee + currentBasefee/2
+            let MaxBasefeeLimit=currentBasefee+currentBasefee/2
             
             ## add larger limitation
-            let MaxGasPremiumLimit = 1200000000
+            let MaxGasPremiumLimit=1200000000
         else
             ## other method , reset to initial setting
             MaxBasefeeLimit=600000000
