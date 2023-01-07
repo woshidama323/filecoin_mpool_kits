@@ -28,6 +28,7 @@ do
         #### for method 5 (winpost msg ), it should be release as soon as possible.
         if [[ "$Method" == "5" ]];then
             ## change the limit
+            echo `date "+%F %T"` "Handling winpost msg"
             let MaxBasefeeLimit=currentBasefee+currentBasefee/2
             
             ## add larger limitation
@@ -41,19 +42,19 @@ do
         
 
         if [[ $MaxBasefeeLimit -lt $currentBasefee ]];then
-            echo "checking failed mxBasefeeLimit:$MaxBasefeeLimit,currentBasefee:$currentBasefee"
+            echo `date "+%F %T"` "checking failed mxBasefeeLimit:$MaxBasefeeLimit,currentBasefee:$currentBasefee"
             break
         fi
 
         ### feecap 超过当前gas的不需要动
         if [[ $GasFeeCap -gt $currentBasefee ]];then
-            echo "GasFeeCap:$GasFeeCap > currentBasefee:$currentBasefee"
+            echo `date "+%F %T"` "GasFeeCap:$GasFeeCap > currentBasefee:$currentBasefee"
             break
         fi
 
         ## GasPremium 不能太大
         if [[ $GasPremium -gt $MaxGasPremiumLimit ]];then
-            echo "checking failed GasPremium:$GasPremium > MaxGasPremiumLimit:$MaxGasPremiumLimit"
+            echo `date "+%F %T"` "checking failed GasPremium:$GasPremium > MaxGasPremiumLimit:$MaxGasPremiumLimit" 
             break
         fi
         ## increate 10% 
@@ -63,10 +64,10 @@ do
                     echo $errormsg|grep "replace by fee has too low GasPremium" >>/dev/null
                     if [[ $? -eq 0 ]];then
                             GasPremium=`echo $errormsg|grep -Eo 'to.[0-9]+.from' |awk '{print $2}'`
-                            echo "new GasPremium created: $GasPremium"
-                            echo "starting replace again........."
+                            echo `date "+%F %T"` "new GasPremium created: $GasPremium" 
+                            echo `date "+%F %T"` "starting replace again........."
                             errormsg=`lotus mpool replace --gas-limit=$GasLimit --gas-premium=$GasPremium --gas-feecap=$incrBasefee $from $nonce 2>&1`
-                            echo "end try....errormsg:$errormsg"
+                            echo `date "+%F %T"` "end try....errormsg:$errormsg"
                     fi
             fi
     done ## end for
