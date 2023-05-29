@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ### max basefee limit
-MaxBasefeeLimit=600000000
+MaxBasefeeLimitConst=700000000
 
 ### max gas premium limit to protect your cost 
-MaxGasPremiumLimit=600000000
+MaxGasPremiumLimitConst=600000000
 
 while true
 do
@@ -32,14 +32,12 @@ do
             let MaxBasefeeLimit=currentBasefee+currentBasefee/2
             
             ## add larger limitation
-            let MaxGasPremiumLimit=1200000000
+            let MaxGasPremiumLimit=$((MaxGasPremiumLimitConst*2))
         else
             ## other method , reset to initial setting
-            MaxBasefeeLimit=600000000
-            MaxGasPremiumLimit=600000000
+            MaxBasefeeLimit=$MaxBasefeeLimitConst
+            MaxGasPremiumLimit=$MaxGasPremiumLimitConst
         fi
-
-        
 
         if [[ $MaxBasefeeLimit -lt $currentBasefee ]];then
             echo `date "+%F %T"` "checking failed mxBasefeeLimit:$MaxBasefeeLimit,currentBasefee:$currentBasefee"
